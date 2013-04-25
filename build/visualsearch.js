@@ -1044,6 +1044,7 @@ VS.ui.SearchInput = Backbone.View.extend({
   // first letter of any word in matches, and finally sorted according to the
   // value's own category. You can pass `preserveOrder` as an option in the
   // `facetMatches` callback to skip any further ordering done client-side.
+  // `dontFilter` option will turn off default facet filtering algorithm.
   autocompleteValues : function(req, resp) {
     var searchTerm = req.term;
     var lastWord   = searchTerm.match(/\w+\*?$/); // Autocomplete only last word.
@@ -1053,10 +1054,15 @@ VS.ui.SearchInput = Backbone.View.extend({
       prefixes = prefixes || [];
 
       // Only match from the beginning of the word.
-      var matcher    = new RegExp('^' + re, 'i');
-      var matches    = $.grep(prefixes, function(item) {
-        return item && matcher.test(item.label || item);
-      });
+      var matches;
+      if (!options.dontFilter) {
+        var matcher = new RegExp('^' + re, 'i');
+        matches     = $.grep(prefixes, function(item) {
+          return item && matcher.test(item.label || item);
+        });
+      } else {
+        matches = prefixes;
+      }
 
       if (options.preserveOrder) {
         resp(matches);
