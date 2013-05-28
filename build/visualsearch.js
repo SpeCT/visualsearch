@@ -575,7 +575,7 @@ VS.ui.SearchFacet = Backbone.View.extend({
   // This is defered in the searchBox so it can be attached to the
   // DOM to get the correct font-size.
   calculateSize : function() {
-    this.box.autoGrowInput();
+    this.box.autoGrowInputVS();
     this.box.unbind('updated.autogrow');
     this.box.bind('updated.autogrow', _.bind(this.moveAutocomplete, this));
   },
@@ -631,7 +631,7 @@ VS.ui.SearchFacet = Backbone.View.extend({
   },
 
   // As the facet's input field grows, it may move to the next line in the
-  // search box. `autoGrowInput` triggers an `updated` event on the input
+  // search box. `autoGrowInputVS` triggers an `updated` event on the input
   // field, which is bound to this method to move the autocomplete menu.
   moveAutocomplete : function() {
     var autocomplete = this.box.data('uiAutocomplete');
@@ -985,7 +985,7 @@ VS.ui.SearchInput = Backbone.View.extend({
     this.setMode('not', 'editing');
     this.setMode('not', 'selected');
     this.box = this.$('input');
-    this.box.autoGrowInput();
+    this.box.autoGrowInputVS();
     this.box.bind('updated.autogrow', this.moveAutocomplete);
     this.box.bind('blur',  this.deferDisableEdit);
     this.box.bind('focus', this.addFocus);
@@ -1084,7 +1084,7 @@ VS.ui.SearchInput = Backbone.View.extend({
   },
 
   // As the input field grows, it may move to the next line in the
-  // search box. `autoGrowInput` triggers an `updated` event on the input
+  // search box. `autoGrowInputVS` triggers an `updated` event on the input
   // field, which is bound to this method to move the autocomplete menu.
   moveAutocomplete : function() {
     var autocomplete = this.box.data('uiAutocomplete');
@@ -1526,7 +1526,7 @@ $.fn.extend({
   // When attached to an input element, this will cause the width of the input
   // to match its contents. This calculates the width of the contents of the input
   // by measuring a hidden shadow div that should match the styling of the input.
-  autoGrowInput: function() {
+  autoGrowInputVS: function() {
     return this.each(function() {
       var $input  = $(this);
       var $tester = $('<div />').css({
